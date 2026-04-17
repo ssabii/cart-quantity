@@ -2,17 +2,37 @@ import { useState } from "react";
 import { initialCartItems, CartItem } from "./data/cart";
 import "./App.css";
 
+const MIN_QUANTITY = 1;
+
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
 
-  // TODO: 수량 변경 핸들러
   const handleQuantityChange = (id: number, newQuantity: number) => {
-    console.log("수량 변경:", id, newQuantity);
+    const newCartItems = cartItems.map<CartItem>((item) =>
+      item.id === id
+        ? {
+            ...item,
+            quantity: Math.max(newQuantity, MIN_QUANTITY),
+          }
+        : item,
+    );
+
+    setCartItems(newCartItems);
   };
 
-  // TODO: 상품 삭제 핸들러
   const handleRemove = (id: number) => {
-    console.log("상품 삭제:", id);
+    const newCartItems = cartItems
+      .map<CartItem>((item) =>
+        item.id === id
+          ? {
+              ...item,
+              quantity: Math.max(item.quantity - 1, MIN_QUANTITY),
+            }
+          : item,
+      )
+      .filter(Boolean);
+
+    setCartItems(newCartItems);
   };
 
   // TODO: 총 금액 계산 (품절 상품 제외)
@@ -35,9 +55,26 @@ function App() {
             <span>{item.price}원</span>
             <span>수량: {item.quantity}</span>
             <span>{item.quantity * item.price}원</span>
-            <button>-</button>
-            <input type="number" value={item.quantity} />
-            <button>+</button>
+            <button
+              onClick={() => handleRemove(item.id)}
+              disabled={item.soldOut}
+            >
+              -
+            </button>
+            <input
+              type="number"
+              value={item.quantity}
+              onChange={(e) =>
+                handleQuantityChange(item.id, Number(e.target.value))
+              }
+              disabled={item.soldOut}
+            />
+            <button
+              onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+              disabled={item.soldOut}
+            >
+              +
+            </button>
           </div>
         ))}
 
