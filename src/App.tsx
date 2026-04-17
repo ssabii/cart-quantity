@@ -16,7 +16,12 @@ function App() {
   };
 
   // TODO: 총 금액 계산 (품절 상품 제외)
-  const totalPrice = 0;
+  const totalPrice = cartItems
+    .filter((item) => !item.soldOut)
+    .reduce((acc, item) => {
+      const itemPrice = item.quantity * item.price;
+      return acc + itemPrice;
+    }, 0);
 
   return (
     <div className="app">
@@ -30,6 +35,9 @@ function App() {
             <span>{item.price}원</span>
             <span>수량: {item.quantity}</span>
             <span>{item.quantity * item.price}원</span>
+            <button>-</button>
+            <input type="number" value={item.quantity} />
+            <button>+</button>
           </div>
         ))}
 
