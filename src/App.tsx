@@ -37,7 +37,7 @@ function App() {
     setCartItems(newCartItems);
   };
 
-  const handleDelete = (id: number) => {
+  const handleRemoveAll = (id: number) => {
     const newCartItems = cartItems.filter((item) => item.id !== id);
 
     setCartItems(newCartItems);
@@ -83,7 +83,7 @@ function App() {
             >
               +
             </button>
-            <button onClick={() => handleDelete(item.id)}>삭제</button>
+            <button onClick={() => handleRemoveAll(item.id)}>삭제</button>
           </div>
         ))}
 
