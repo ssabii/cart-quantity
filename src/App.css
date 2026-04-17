@@ -1,0 +1,67 @@
+.app {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.cart-container {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  gap: 16px;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+/* TODO: 품절 상품 스타일 */
+/*
+.cart-item.sold-out { }
+*/
+
+/* TODO: 수량 조절 버튼 스타일 */
+/*
+.quantity-control { }
+.quantity-button { }
+.quantity-input { }
+*/
+
+/* TODO: 삭제 버튼 스타일 */
+/*
+.remove-button { }
+*/
+
+.cart-summary {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background: #f8f9fa;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* TODO: 빈 장바구니 스타일 */
+/*
+.empty-cart { }
+*/
