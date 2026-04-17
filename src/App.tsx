@@ -7,6 +7,7 @@ const MAX_QUANTITY = 99;
 
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
+  const isCartEmpty = cartItems.length === 0;
 
   const handleQuantityChange = (id: number, newQuantity: number) => {
     const newCartItems = cartItems.map<CartItem>((item) => {
@@ -63,31 +64,47 @@ function App() {
             <span>{item.price}원</span>
             <span>수량: {item.quantity}</span>
             <span>{item.quantity * item.price}원</span>
-            <button
-              onClick={() => handleRemove(item.id)}
-              disabled={item.soldOut}
-            >
-              -
-            </button>
-            <input
-              type="number"
-              value={item.quantity}
-              onChange={(e) =>
-                handleQuantityChange(item.id, Number(e.target.value))
-              }
-              disabled={item.soldOut}
-            />
-            <button
-              onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-              disabled={item.soldOut}
-            >
-              +
-            </button>
-            <button onClick={() => handleRemoveAll(item.id)}>삭제</button>
+            <div className="quantity-control">
+              <button
+                className="quantity-button"
+                onClick={() => handleRemove(item.id)}
+                disabled={item.soldOut}
+              >
+                -
+              </button>
+              <input
+                className="quantity-input"
+                type="number"
+                value={item.quantity}
+                onChange={(e) =>
+                  handleQuantityChange(item.id, Number(e.target.value))
+                }
+                disabled={item.soldOut}
+              />
+              <button
+                onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                disabled={item.soldOut}
+                className="quantity-button"
+              >
+                +
+              </button>
+              <button
+                className="remove-button"
+                onClick={() => handleRemoveAll(item.id)}
+              >
+                삭제
+              </button>
+            </div>
           </div>
         ))}
 
         {/* TODO: 장바구니가 비었을 때 */}
+        {isCartEmpty && (
+          <div className="empty-cart">
+            장바구니가 비었어요. <br />
+            상품을 추가해보세요!
+          </div>
+        )}
 
         {/* TODO: 총 금액 */}
         <div className="cart-summary">
