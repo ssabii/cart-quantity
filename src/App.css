@@ -23,12 +23,40 @@ h1 {
   overflow: hidden;
 }
 
+.cart-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: 16px 0;
+}
+
 .cart-item {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 20px;
   border-bottom: 1px solid #eee;
   gap: 16px;
+}
+
+.item-name, .item-total {
+  flex: 2;
+}
+.item-price, .item-quantity {
+  flex: 1;
+}
+
+
+.quantity-input {
+  width: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .cart-item:last-child {
@@ -36,21 +64,29 @@ h1 {
 }
 
 /* TODO: 품절 상품 스타일 */
-/*
-.cart-item.sold-out { }
-*/
+.cart-item.sold-out :not(button) {
+  opacity: 0.3;
+  text-decoration: line-through;
+}
+
 
 /* TODO: 수량 조절 버튼 스타일 */
-/*
-.quantity-control { }
-.quantity-button { }
+
+.quantity-control {}
+.quantity-button {
+  cursor: pointer;
+}
 .quantity-input { }
-*/
+
 
 /* TODO: 삭제 버튼 스타일 */
-/*
-.remove-button { }
-*/
+.remove-button {
+  background: transparent;
+  border: none;
+  color: #ff4d4f;
+  cursor: pointer;
+}
+
 
 .cart-summary {
   display: flex;
@@ -62,6 +98,9 @@ h1 {
 }
 
 /* TODO: 빈 장바구니 스타일 */
-/*
-.empty-cart { }
-*/
+.empty-cart { 
+  text-align: center;
+  padding: 40px 0;
+  color: #777;
+}
+

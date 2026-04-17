@@ -1,44 +1,62 @@
-import { useState } from 'react';
-import { initialCartItems, CartItem } from './data/cart';
+import { useEffect, useState } from 'react';
 import './App.css';
+import CartItemComponent from './components/CartItem';
+import CartSummary from './components/CartSummary';
+import { CartItem, initialCartItems } from './data/cart';
 
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
 
   // TODO: 수량 변경 핸들러
   const handleQuantityChange = (id: number, newQuantity: number) => {
-    console.log('수량 변경:', id, newQuantity);
+    setCartItems((prevItems: CartItem[]) =>
+      prevItems.map((item: CartItem) =>
+        item.id === id ? { ...item, quantity: newQuantity } : item
+      )
+    );
   };
 
-  // TODO: 상품 삭제 핸들러
+  const updateTotalPrice = () => {
+    const total: number = cartItems
+      .filter((item: CartItem) => !item.soldOut)
+      .reduce((sum: number, item: CartItem) => sum + item.price * item.quantity, 0);
+    setTotalPrice(total);
+  }
+
   const handleRemove = (id: number) => {
-    console.log('상품 삭제:', id);
+    setCartItems((prevItems: CartItem[]) => prevItems.filter((item: CartItem) => item.id !== id));
+    updateTotalPrice();
   };
 
-  // TODO: 총 금액 계산 (품절 상품 제외)
-  const totalPrice = 0;
+  const handleClearCart = () => {
+    setCartItems([]);
+  }
+
+  useEffect(() => {
+    updateTotalPrice();
+  }, [cartItems]);
+
 
   return (
     <div className="app">
       <h1>장바구니</h1>
 
+      <div className="cart-actions">
+        <button onClick={handleClearCart}>전체 삭제</button>
+      </div>
+
       <div className="cart-container">
         {/* TODO: 장바구니 아이템 목록 */}
         {cartItems.map((item) => (
-          <div key={item.id} className="cart-item">
-            <span>{item.name}</span>
-            <span>{item.price}원</span>
-            <span>수량: {item.quantity}</span>
-          </div>
+          <CartItemComponent key={item.id} item={item} onQuantityChange={handleQuantityChange} handleRemove={handleRemove}/>
         ))}
 
         {/* TODO: 장바구니가 비었을 때 */}
+        {cartItems.length === 0 && <div className="empty-cart">장바구니가 비었습니다.</div>}
 
         {/* TODO: 총 금액 */}
-        <div className="cart-summary">
-          <span>총 금액</span>
-          <span>{totalPrice}원</span>
-        </div>
+        <CartSummary totalPrice={totalPrice} />
       </div>
     </div>
   );

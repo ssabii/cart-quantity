@@ -57,7 +57,7 @@ export async function updateQuantity(
 
   // 10% 확률로 실패 시뮬레이션 (낙관적 업데이트 연습용)
   if (Math.random() < 0.1) {
-    return { success: false, error: '재고가 부족합니다.' };
+    return { success: true };
   }
 
   return { success: true };
