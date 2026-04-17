@@ -3,19 +3,23 @@ import { initialCartItems, CartItem } from "./data/cart";
 import "./App.css";
 
 const MIN_QUANTITY = 1;
+const MAX_QUANTITY = 99;
 
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
 
   const handleQuantityChange = (id: number, newQuantity: number) => {
-    const newCartItems = cartItems.map<CartItem>((item) =>
-      item.id === id
+    const newCartItems = cartItems.map<CartItem>((item) => {
+      const maxQuantity = Math.max(MIN_QUANTITY, newQuantity);
+      const quantity = Math.min(maxQuantity, MAX_QUANTITY);
+
+      return item.id === id
         ? {
             ...item,
-            quantity: Math.max(newQuantity, MIN_QUANTITY),
+            quantity,
           }
-        : item,
-    );
+        : item;
+    });
 
     setCartItems(newCartItems);
   };
