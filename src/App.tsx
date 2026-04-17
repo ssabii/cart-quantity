@@ -1,18 +1,18 @@
-import { useState } from 'react';
-import { initialCartItems, CartItem } from './data/cart';
-import './App.css';
+import { useState } from "react";
+import { initialCartItems, CartItem } from "./data/cart";
+import "./App.css";
 
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
 
   // TODO: 수량 변경 핸들러
   const handleQuantityChange = (id: number, newQuantity: number) => {
-    console.log('수량 변경:', id, newQuantity);
+    console.log("수량 변경:", id, newQuantity);
   };
 
   // TODO: 상품 삭제 핸들러
   const handleRemove = (id: number) => {
-    console.log('상품 삭제:', id);
+    console.log("상품 삭제:", id);
   };
 
   // TODO: 총 금액 계산 (품절 상품 제외)
@@ -29,6 +29,7 @@ function App() {
             <span>{item.name}</span>
             <span>{item.price}원</span>
             <span>수량: {item.quantity}</span>
+            <span>{item.quantity * item.price}원</span>
           </div>
         ))}
 
