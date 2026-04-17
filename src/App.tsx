@@ -25,16 +25,20 @@ function App() {
   };
 
   const handleRemove = (id: number) => {
-    const newCartItems = cartItems
-      .map<CartItem>((item) =>
-        item.id === id
-          ? {
-              ...item,
-              quantity: Math.max(item.quantity - 1, MIN_QUANTITY),
-            }
-          : item,
-      )
-      .filter(Boolean);
+    const newCartItems = cartItems.map<CartItem>((item) =>
+      item.id === id
+        ? {
+            ...item,
+            quantity: Math.max(item.quantity - 1, MIN_QUANTITY),
+          }
+        : item,
+    );
+
+    setCartItems(newCartItems);
+  };
+
+  const handleDelete = (id: number) => {
+    const newCartItems = cartItems.filter((item) => item.id !== id);
 
     setCartItems(newCartItems);
   };
@@ -79,6 +83,7 @@ function App() {
             >
               +
             </button>
+            <button onClick={() => handleDelete(item.id)}>삭제</button>
           </div>
         ))}
 
