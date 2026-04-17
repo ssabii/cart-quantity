@@ -59,7 +59,10 @@ function App() {
       <div className="cart-container">
         {/* TODO: 장바구니 아이템 목록 */}
         {cartItems.map((item) => (
-          <div key={item.id} className="cart-item">
+          <div
+            key={item.id}
+            className={item.soldOut ? "cart-item sold-out" : "cart-item"}
+          >
             <span>{item.name}</span>
             <span>{item.price}원</span>
             <span>수량: {item.quantity}</span>

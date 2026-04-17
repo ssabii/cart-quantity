@@ -37,9 +37,12 @@ h1 {
 }
 
 /* TODO: 품절 상품 스타일 */
-/*
-.cart-item.sold-out { }
-*/
+
+.cart-item.sold-out {
+  background-color: #bcbcbc;
+  color: #ffffff
+}
+
 
 /* TODO: 수량 조절 버튼 스타일 */
 
