@@ -10,35 +10,35 @@ export interface CartItem {
 export const initialCartItems: CartItem[] = [
   {
     id: 1,
-    name: '나이키 에어맥스 90',
+    name: "나이키 에어맥스 90",
     price: 179000,
     quantity: 1,
     soldOut: false,
   },
   {
     id: 2,
-    name: '아디다스 울트라부스트 22',
+    name: "아디다스 울트라부스트 22",
     price: 229000,
     quantity: 2,
     soldOut: false,
   },
   {
     id: 3,
-    name: '뉴발란스 993 그레이',
+    name: "뉴발란스 993 그레이",
     price: 269000,
     quantity: 1,
     soldOut: true, // 품절 상품
   },
   {
     id: 4,
-    name: '컨버스 척테일러 70s',
+    name: "컨버스 척테일러 70s",
     price: 95000,
     quantity: 3,
     soldOut: false,
   },
   {
     id: 5,
-    name: '반스 올드스쿨',
+    name: "반스 올드스쿨",
     price: 79000,
     quantity: 1,
     soldOut: false,
@@ -51,14 +51,9 @@ export const initialCartItems: CartItem[] = [
  */
 export async function updateQuantity(
   itemId: number,
-  quantity: number
+  quantity: number,
 ): Promise<{ success: boolean; error?: string }> {
   await new Promise((resolve) => setTimeout(resolve, 200));
-
-  // 10% 확률로 실패 시뮬레이션 (낙관적 업데이트 연습용)
-  if (Math.random() < 0.1) {
-    return { success: false, error: '재고가 부족합니다.' };
-  }
 
   return { success: true };
 }
@@ -67,7 +62,7 @@ export async function updateQuantity(
  * 상품 삭제 API (시뮬레이션)
  */
 export async function removeItem(
-  itemId: number
+  itemId: number,
 ): Promise<{ success: boolean }> {
   await new Promise((resolve) => setTimeout(resolve, 150));
   return { success: true };

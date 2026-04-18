@@ -1,22 +1,56 @@
-import { useState } from 'react';
-import { initialCartItems, CartItem } from './data/cart';
-import './App.css';
+import { useState } from "react";
+import { initialCartItems, CartItem } from "./data/cart";
+import "./App.css";
+
+const MIN_QUANTITY = 1;
+const MAX_QUANTITY = 99;
 
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
+  const isCartEmpty = cartItems.length === 0;
 
-  // TODO: 수량 변경 핸들러
   const handleQuantityChange = (id: number, newQuantity: number) => {
-    console.log('수량 변경:', id, newQuantity);
+    const newCartItems = cartItems.map<CartItem>((item) => {
+      const maxQuantity = Math.max(MIN_QUANTITY, newQuantity);
+      const quantity = Math.min(maxQuantity, MAX_QUANTITY);
+
+      return item.id === id
+        ? {
+            ...item,
+            quantity,
+          }
+        : item;
+    });
+
+    setCartItems(newCartItems);
   };
 
-  // TODO: 상품 삭제 핸들러
   const handleRemove = (id: number) => {
-    console.log('상품 삭제:', id);
+    const newCartItems = cartItems.map<CartItem>((item) =>
+      item.id === id
+        ? {
+            ...item,
+            quantity: Math.max(item.quantity - 1, MIN_QUANTITY),
+          }
+        : item,
+    );
+
+    setCartItems(newCartItems);
+  };
+
+  const handleRemoveAll = (id: number) => {
+    const newCartItems = cartItems.filter((item) => item.id !== id);
+
+    setCartItems(newCartItems);
   };
 
   // TODO: 총 금액 계산 (품절 상품 제외)
-  const totalPrice = 0;
+  const totalPrice = cartItems
+    .filter((item) => !item.soldOut)
+    .reduce((acc, item) => {
+      const itemPrice = item.quantity * item.price;
+      return acc + itemPrice;
+    }, 0);
 
   return (
     <div className="app">
@@ -25,14 +59,55 @@ function App() {
       <div className="cart-container">
         {/* TODO: 장바구니 아이템 목록 */}
         {cartItems.map((item) => (
-          <div key={item.id} className="cart-item">
+          <div
+            key={item.id}
+            className={item.soldOut ? "cart-item sold-out" : "cart-item"}
+          >
             <span>{item.name}</span>
             <span>{item.price}원</span>
             <span>수량: {item.quantity}</span>
+            <span>{item.quantity * item.price}원</span>
+            <div className="quantity-control">
+              <button
+                className="quantity-button"
+                onClick={() => handleRemove(item.id)}
+                disabled={item.soldOut}
+              >
+                -
+              </button>
+              <input
+                className="quantity-input"
+                type="number"
+                value={item.quantity}
+                onChange={(e) =>
+                  handleQuantityChange(item.id, Number(e.target.value))
+                }
+                disabled={item.soldOut}
+              />
+              <button
+                onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                disabled={item.soldOut}
+                className="quantity-button"
+              >
+                +
+              </button>
+              <button
+                className="remove-button"
+                onClick={() => handleRemoveAll(item.id)}
+              >
+                삭제
+              </button>
+            </div>
           </div>
         ))}
 
         {/* TODO: 장바구니가 비었을 때 */}
+        {isCartEmpty && (
+          <div className="empty-cart">
+            장바구니가 비었어요. <br />
+            상품을 추가해보세요!
+          </div>
+        )}
 
         {/* TODO: 총 금액 */}
         <div className="cart-summary">
