@@ -28,7 +28,7 @@ function App() {
   };
 
   const handleRemove = (id: number) => {
-    const newCartItems = cartItems.map<CartItem>((item) =>
+    const newCartItems = cartItems.map<CartItemData>((item) =>
       item.id === id
         ? {
           ...item,
