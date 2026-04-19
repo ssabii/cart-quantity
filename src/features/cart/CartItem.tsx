@@ -1,5 +1,5 @@
-import { ChangeEvent, KeyboardEvent, KeyboardEventHandler, useEffect, useState } from 'react';
-import { useCartActions, useCartItem } from './useCart';
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
+import { MAX_QUANTITY, useCartActions, useCartItem } from './useCart';
 
 interface CartItemProps {
   id: number;
@@ -33,11 +33,11 @@ function CartItem({ id }: CartItemProps) {
     if (quantity) {
       updateQuantity(id, quantity);
     } else {
-      setInput(String(item.quantity));
+      setInput('1');
     }
   };
 
-  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
+  const handleBlur = () => {
     commitQuantity();
   };
 
@@ -55,7 +55,7 @@ function CartItem({ id }: CartItemProps) {
         <button
           onClick={() => decreaseQuantity(id)}
           className="quantity-button"
-          disabled={item.soldOut}
+          disabled={item.soldOut || item.quantity === 1}
         >
           -
         </button>
@@ -72,7 +72,7 @@ function CartItem({ id }: CartItemProps) {
           onKeyDown={handleKeyDown}
         />
         <button
-          disabled={item.soldOut}
+          disabled={item.soldOut || item.quantity === MAX_QUANTITY}
           className="quantity-button"
           onClick={() => increaseQuantity(id)}
         >

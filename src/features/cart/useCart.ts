@@ -1,13 +1,13 @@
 import { create } from 'zustand';
 import { combine } from 'zustand/middleware';
-import { CartItem, updateQuantity } from '../../data/cart';
+import { CartItem } from '../../data/cart';
 import { useShallow } from 'zustand/shallow';
 
 interface CartStore {
   items: CartItem[];
 }
 
-const MAX_QUANTITY = 99;
+export const MAX_QUANTITY = 99;
 
 const initialState: CartStore = {
   items: [],
@@ -50,7 +50,7 @@ const useCartStore = create(
             item.id === id
               ? {
                   ...item,
-                  quantity: quantity,
+                  quantity: Math.min(quantity, MAX_QUANTITY),
                 }
               : item,
           )
