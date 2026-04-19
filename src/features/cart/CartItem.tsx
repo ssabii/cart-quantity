@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, memo, useEffect, useState } from 'react';
 import { MAX_QUANTITY, useCartActions, useCartItem } from './useCart';
 
 interface CartItemProps {
@@ -86,4 +86,4 @@ function CartItem({ id }: CartItemProps) {
   );
 }
 
-export default CartItem;
+export default memo(CartItem);
