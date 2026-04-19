@@ -67,7 +67,9 @@ export const useCartItem = (id: number) =>
 
 export const useTotalPrice = () =>
   useCartStore((store) =>
-    store.items.filter((item) => !item.soldOut).reduce((acc, item) => acc + item.price, 0),
+    store.items
+      .filter((item) => !item.soldOut)
+      .reduce((acc, item) => acc + item.price * item.quantity, 0),
   );
 
 export const useCartActions = () =>

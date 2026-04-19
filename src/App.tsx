@@ -1,13 +1,13 @@
 import CartItem from './features/cart/CartItem';
-import { useCartActions, useCartItems, useTotalPrice } from './features/cart/useCart';
+import { useCartActions, useCartItems } from './features/cart/useCart';
 import { useEffect } from 'react';
 import { initialCartItems } from './data/cart';
+import CartSummary from './features/cart/CartSummary';
 
 import './App.css';
 
 function App() {
   const cartItems = useCartItems();
-  const totalPrice = useTotalPrice();
   const { setItems } = useCartActions();
   const isCartEmpty = cartItems.length === 0;
 
@@ -31,10 +31,7 @@ function App() {
           </div>
         )}
 
-        <div className="cart-summary">
-          <span>총 금액</span>
-          <span>{totalPrice}원</span>
-        </div>
+        <CartSummary />
       </div>
     </div>
   );
