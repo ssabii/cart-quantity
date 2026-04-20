@@ -1,3 +1,4 @@
+import { formatPrice } from './format';
 import { useTotalPrice } from './useCart';
 
 function CartSummary() {
@@ -6,7 +7,7 @@ function CartSummary() {
   return (
     <div className="cart-summary">
       <span>총 금액</span>
-      <span>{totalPrice}원</span>
+      <span>{formatPrice(totalPrice)}</span>
     </div>
   );
 }

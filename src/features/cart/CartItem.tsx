@@ -1,5 +1,6 @@
 import { ChangeEvent, KeyboardEvent, memo, useEffect, useState } from 'react';
 import { MAX_QUANTITY, useCartActions, useCartItem } from './useCart';
+import { formatPrice } from './format';
 
 interface CartItemProps {
   id: number;
@@ -47,19 +48,19 @@ function CartItem({ id }: CartItemProps) {
 
   return (
     <div key={item.id} className={item.soldOut ? 'cart-item sold-out' : 'cart-item'}>
-      <span>{item.name}</span>
-      <span>{item.price}원</span>
-      <span>수량: {item.quantity}</span>
-      <span>{item.quantity * item.price}원</span>
+      <div className="info">
+        <span className="item-name">{item.name}</span>
+        <span className="item-price">{formatPrice(item.price)}</span>
+      </div>
+
       <div className="quantity-control">
         <button
           onClick={() => decreaseQuantity(id)}
           className="quantity-button"
           disabled={item.soldOut || item.quantity === 1}
         >
-          -
+          −
         </button>
-
         <input
           className="quantity-input"
           type="text"
@@ -78,10 +79,13 @@ function CartItem({ id }: CartItemProps) {
         >
           +
         </button>
-        <button className="remove-button" onClick={() => removeItem(id)}>
-          삭제
-        </button>
       </div>
+
+      <span className="subtotal">{formatPrice(item.quantity * item.price)}</span>
+
+      <button className="remove-button" onClick={() => removeItem(id)}>
+        삭제
+      </button>
     </div>
   );
 }
